@@ -40,79 +40,79 @@ Confirm both Piper containers are running:\
 
 Expected:
 
-piper         10200->10200
-piper-glados 10201->10200
-In Home Assistant, add two Wyoming integrations:
-Normal Piper:
-Host: 192.168.2.10
+piper         10200->10200\
+piper-glados 10201->10200\
+In Home Assistant, add two Wyoming integrations:\
+Normal Piper:\
+Host: 192.168.1.10\
 Port: 10200
 
-GLaDOS Piper:
-Host: 192.168.2.10
+GLaDOS Piper:\
+Host: 192.168.2.10\
 Port: 10201
 
 Rename them in Home Assistant:
 
-Piper - Normal
-Piper - GLaDOS
-Add Whisper Wyoming integration:
-Host: 192.168.2.10
-Port: 10300
-For the GLaDOS wake word on ESP32-S3-Box, take control of the ESPHome device and store its YAML under:
-/mnt/cache/HA_Stack/homeassistant/esphome/
-Copy the wake word model files into that ESPHome config folder:
-/mnt/cache/HA_Stack/homeassistant/esphome/glados.json
-/mnt/cache/HA_Stack/homeassistant/esphome/glados.tflite
-In the ESP32-S3-Box YAML, add the custom model using /config/glados.json, not /config/esphome/glados.json:
-micro_wake_word:
-  models:
-    - okay_nabu
-    - hey_mycroft
-    - hey_jarvis
-    - model: /config/glados.json
-Compile and install wirelessly from ESPHome Dashboard:
-http://192.168.2.10:6052
-In Home Assistant, create a GLaDOS voice pipeline:
-Wake word: GLaDOS/custom model
-Speech-to-text: Whisper
-Conversation agent: your Groq/Extended OpenAI agent
-Text-to-speech: Piper - GLaDOS
-Keep your normal pipeline separate:
-Wake word: Jarvis or existing
-Speech-to-text: Whisper
-Conversation agent: normal agent
-Text-to-speech: Piper - Normal
-For web search, SearXNG runs here:
-http://192.168.2.10:7676
+Piper - Normal\
+Piper - GLaDOS\
+Add Whisper Wyoming integration:\
+Host: 192.168.1.10\
+Port: 10300\
+For the GLaDOS wake word on ESP32-S3-Box, take control of the ESPHome device and store its YAML under:\
+/mnt/cache/HA_Stack/homeassistant/esphome/\
+Copy the wake word model files into that ESPHome config folder:\
+/mnt/cache/HA_Stack/homeassistant/esphome/glados.json\
+/mnt/cache/HA_Stack/homeassistant/esphome/glados.tflite\
+In the ESP32-S3-Box YAML, add the custom model using /config/glados.json, not /config/esphome/glados.json:\
+micro_wake_word:\
+  models:\
+    - okay_nabu\
+    - hey_mycroft\
+    - hey_jarvis\
+    - model: /config/glados.json\
+Compile and install wirelessly from ESPHome Dashboard:\
+http://<192.168.1.10>:6052\
+In Home Assistant, create a GLaDOS voice pipeline:\
+Wake word: GLaDOS/custom model\
+Speech-to-text: Whisper\
+Conversation agent: your Groq/Extended OpenAI agent\
+Text-to-speech: Piper - GLaDOS\
+Keep your normal pipeline separate:\
+Wake word: Jarvis or existing\
+Speech-to-text: Whisper\
+Conversation agent: normal agent\
+Text-to-speech: Piper - Normal\
+For web search, SearXNG runs here:\
+http://192.168.1.10:7676
 
 The HTTP search service runs here:
 
-http://192.168.2.10:8765/search
+http://192.168.1.10:8765/search
 
 Test it:
 
-curl -X POST http://192.168.2.10:8765/search \
+```curl -X POST http://192.168.2.10:8765/search \
   -H "Content-Type: application/json" \
-  -d '{"query":"current president of France"}'
-In the Extended OpenAI/Groq function YAML, use value_template this way because that is what worked in your stack:
-value_template: "{{ value_json | to_json }}"
-Add this to the GLaDOS prompt so it does not read tool junk aloud:
-Never speak tool names, function names, JSON, YAML, raw tool output, error codes, stack traces, or failed tool calls aloud.
-When search_web returns JSON, use the value in the message field as the factual answer.
-search_web is only for public internet information, not Home Assistant devices or sensors.
-Test:
-GLaDOS, who is the current president of France?
-GLaDOS, turn on the kitchen lights.
-GLaDOS, what sensors can you see in my home?
+  -d '{"query":"current president of France"}'```\
+In the Extended OpenAI/Groq function YAML, use value_template this way because that is what worked in your stack:\
+value_template: "{{ value_json | to_json }}"\
+Add this to the GLaDOS prompt so it does not read tool junk aloud:\
+Never speak tool names, function names, JSON, YAML, raw tool output, error codes, stack traces, or failed tool calls aloud.\
+When search_web returns JSON, use the value in the message field as the factual answer.\
+search_web is only for public internet information, not Home Assistant devices or sensors.\
+Test:\
+GLaDOS, who is the current president of France?\
+GLaDOS, turn on the kitchen lights.\
+GLaDOS, what sensors can you see in my home?\
 
 Important files you needed:
 
-GLaDOS Piper TTS:
-glados.onnx
+GLaDOS Piper TTS:\
+glados.onnx\
 glados.onnx.json
 
-GLaDOS wake word:
-glados.tflite
+GLaDOS wake word:\
+glados.tflite\
 glados.json
 
 Normal Piper:

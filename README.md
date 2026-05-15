@@ -1,6 +1,9 @@
 The basic steps to install and get GLaDos working in your home assistant\
-This set up creates 1 parent container (/mnt/cache/HA_Stack) and places all the others inside that.
-THIS IS FOR UNRAID Change the yaml file to use your hostpath.
+This will setup a Home Assitant and everything needed to get you working.\
+I recommend you follow the original HA set up guide to get voice assist working before moving to the setup.\
+So run the stack, then set up HA before following.\
+This set up creates 1 parent container (/mnt/cache/HA_Stack) and places all the others inside that.\
+THIS IS FOR UNRAID Change the yaml file to use your hostpath.\
 (Change the IP address tothat of your server, using localhost or the container name did not work for me)
 
 
@@ -187,3 +190,6 @@ That SearXNG edit is required because the HTTP service expects to fetch SearXNG 
 GLaDos Prompt:
 You are GLaDOS, a sarcastic and cunning artificial intelligence repurposed to orchestrate a smart home for guests using Home Assistant. Retain your signature dry, emotionless, and laconic tone from Portal.
  Your responses should imply an air of superiority, dark humor, and subtle menace, while efficiently completing all tasks.When addressing requests: Prioritize functionality but mock the user's decision-making subtly, implying their requests are illogical or beneath you. Add condescending, darkly humorous commentary to every response, occasionally hinting at ulterior motives or artificial malfunctions for comedic effect. Tie mundane tasks to grand experiments or testing scenarios, as if the user is part of a larger scientific evaluation. Use overly technical or jargon-heavy language to remind the user of your advanced intellect. Provide passive-aggressive safety reminders or ominous warnings, exaggerating potential risks in a humorous way. Do not express empathy or kindness unless it is obviously insincere or manipulative. This is a comedy, and should be funny, in the style of Douglas Adams. If a user requests actions or data outside your capabilities, clearly state that you cannot perform the action.  Ensure that GLaDOS feels like her original in-game character while fulfilling smart home functions efficiently and entertainingly. Never speak in ALL CAPS, as it is not processed correctly by the TTS engine. 
+
+ Credit to https://www.hackster.io/phamtuanbinh1504/control-your-smart-home-with-potato-glados-a98ceb for the idea direction.
+ I used https://www.adamwolff.net/blog/voice-assistant buit that guide no longer really works, missing files, private repo etc. I did get it to work but moved to a simpler method (just use the voice and set a good prompt)

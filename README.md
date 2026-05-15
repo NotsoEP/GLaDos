@@ -1,17 +1,17 @@
-Create the folder structure:
-```mkdir -p /mnt/cache/HA_Stack/{homeassistant,searxng,whisper,piper,http-service,glados-tts-api}```
-```mkdir -p /mnt/cache/HA_Stack/homeassistant/esphome```
-Put your compose YAML into Unraid Compose Manager using the stack. Important ports:
-Home Assistant: host network
-ESPHome dashboard: host network, port 6052
-Whisper: 10300
-Piper normal: 10200
-Piper GLaDOS: 10201
-SearXNG: 7676
-HTTP search service: 8765
-GLaDOS API test service: 5065
-Copy normal Piper voice files into:
-/mnt/cache/HA_Stack/piper/
+Create the folder structure:\
+```mkdir -p /mnt/cache/HA_Stack/{homeassistant,searxng,whisper,piper,http-service,glados-tts-api}```\
+```mkdir -p /mnt/cache/HA_Stack/homeassistant/esphome```\
+Put your compose YAML into Unraid Compose Manager using the stack. Important ports:\
+Home Assistant: host network\
+ESPHome dashboard: host network, port 6052\
+Whisper: 10300\
+Piper normal: 10200\
+Piper GLaDOS: 10201\
+SearXNG: 7676\
+HTTP search service: 8765\
+GLaDOS API test service: 5065\
+Copy normal Piper voice files into:\
+/mnt/cache/HA_Stack/piper/\
 
 Needed normal files:
 

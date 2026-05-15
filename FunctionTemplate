@@ -1,0 +1,24 @@
+- spec:
+    name: search_web
+    description: >-
+      Search the public internet only. Use this for current public information,
+      news, sports, public weather, prices, and current public figures.
+      Use parameter query for the search text.
+    parameters:
+      type: object
+      properties:
+        query:
+          type: string
+          description: The public internet search query.
+        message:
+          type: string
+          description: Fallback search text if query is not provided.
+  function:
+    type: rest
+    method: POST
+    resource: "http://192.168.2.10:8765/search"
+    headers:
+      Content-Type: application/json
+    timeout: 60
+    payload_template: '{{ {"query": query | default(message, true)} | to_json }}'
+    value_template: "{{ value_json | to_json }}"

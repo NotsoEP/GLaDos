@@ -11,32 +11,32 @@ SearXNG: 7676\
 HTTP search service: 8765\
 GLaDOS API test service: 5065\
 Copy normal Piper voice files into:\
-/mnt/cache/HA_Stack/piper/\
+/mnt/cache/HA_Stack/piper/
 
 Needed normal files:
 
-en_US-lessac-medium.onnx
-en_US-lessac-medium.onnx.json
-Copy GLaDOS Piper voice files into the same Piper folder:
+en_US-lessac-medium.onnx\
+en_US-lessac-medium.onnx.json\
+Copy GLaDOS Piper voice files into the same Piper folder:\
 /mnt/cache/HA_Stack/piper/
 
 Needed GLaDOS Piper files:
 
-glados.onnx
+glados.onnx\
 glados.onnx.json
 
 If your downloaded files are named:
 
-en_US-glados-medium.onnx
-en_US-glados-medium.onnx.json
+en_US-glados-medium.onnx\
+en_US-glados-medium.onnx.json\
 
 copy/rename them:
 
-```cp /mnt/cache/HA_Stack/piper/en_US-glados-medium.onnx /mnt/cache/HA_Stack/piper/glados.onnx```
-cp /mnt/cache/HA_Stack/piper/en_US-glados-medium.onnx.json /mnt/cache/HA_Stack/piper/glados.onnx.json
-Start the compose stack.
-Confirm both Piper containers are running:
-docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}" | grep piper
+```cp /mnt/cache/HA_Stack/piper/en_US-glados-medium.onnx /mnt/cache/HA_Stack/piper/glados.onnx```\
+```cp /mnt/cache/HA_Stack/piper/en_US-glados-medium.onnx.json /mnt/cache/HA_Stack/piper/glados.onnx.json```\
+Start the compose stack.\
+Confirm both Piper containers are running:\
+```docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}" | grep piper```
 
 Expected:
 

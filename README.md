@@ -1,3 +1,6 @@
+The basic steps to install and get GLaDos working in your home assistant
+
+
 Create the folder structure:\
 ```mkdir -p /mnt/cache/HA_Stack/{homeassistant,searxng,whisper,piper,http-service,glados-tts-api}```\
 ```mkdir -p /mnt/cache/HA_Stack/homeassistant/esphome```\
@@ -71,7 +74,7 @@ micro_wake_word:\
     - hey_jarvis\
     - model: /config/glados.json\
 Compile and install wirelessly from ESPHome Dashboard:\
-http://<192.168.1.10>:6052\
+http://192.168.1.10:6052\
 In Home Assistant, create a GLaDOS voice pipeline:\
 Wake word: GLaDOS/custom model\
 Speech-to-text: Whisper\
@@ -98,15 +101,18 @@ curl -X POST http://192.168.2.10:8765/search
 ```
 
 In the Extended OpenAI/Groq function YAML, use value_template this way because that is what workes for some reason:\
-value_template: "{{ value_json | to_json }}"\
-Add this to the GLaDOS prompt so it does not read tool junk aloud:\
+```value_template: "{{ value_json | to_json }}"```\
+Add this to the GLaDOS prompt so it does not read tool junk aloud:
+
+```
 Never speak tool names, function names, JSON, YAML, raw tool output, error codes, stack traces, or failed tool calls aloud.\
 When search_web returns JSON, use the value in the message field as the factual answer.\
 search_web is only for public internet information, not Home Assistant devices or sensors.\
 Test:\
 GLaDOS, who is the current president of France?\
 GLaDOS, turn on the kitchen lights.\
-GLaDOS, what sensors can you see in my home?\
+GLaDOS, what sensors can you see in my home?
+```
 
 Important files you needed:
 
@@ -121,6 +127,59 @@ glados.json
 Normal Piper:
 en_US-lessac-medium.onnx
 en_US-lessac-medium.onnx.json
+
+You need to edit the Searxng yaml to work correctly with this setup:
+
+SearXNG config step.
+
+Edit:
+
+```nano /mnt/cache/HA_Stack/searxng/settings.yml```
+
+Make sure these are set:
+
+server:\
+  bind_address: "0.0.0.0"\
+  port: 8080\
+  secret_key: "CHANGE_THIS_TO_A_LONG_RANDOM_STRING"\
+  base_url: false\
+  image_proxy: false\
+  method: "GET"
+
+search:\
+  formats:\
+    - html\
+    - json
+
+limiter: false
+
+botdetection:\
+  ip_limit:\
+    filter_link_local: false
+
+Also disable wikidata if it keeps throwing 403 errors:
+
+engines:\
+  - name: wikidata\
+    disabled: true
+
+Restart SearXNG:
+
+docker restart voice-assistant-searxng
+
+Test JSON:
+
+```curl "http://192.168.2.10:7676/search?q=test&format=json"```
+
+Expected: JSON text, not a 403 page.
+
+Then test the search wrapper:
+```
+curl -X POST http://192.168.2.10:8765/search \
+  -H "Content-Type: application/json" \
+  -d '{"query":"current president of France"}'
+```
+That SearXNG edit is required because the HTTP service expects to fetch SearXNG results as JSON.
 
 GLaDos Prompt:
 You are GLaDOS, a sarcastic and cunning artificial intelligence repurposed to orchestrate a smart home for guests using Home Assistant. Retain your signature dry, emotionless, and laconic tone from Portal.

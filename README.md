@@ -1,4 +1,5 @@
-The basic steps to install and get GLaDos working in your home assistant
+The basic steps to install and get GLaDos working in your home assistant\
+(Change the IP address tothat of your server, using localhost or the container name did not work for me)
 
 
 Create the folder structure:\

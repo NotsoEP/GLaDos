@@ -1,0 +1,101 @@
+services:
+  searxng:
+    image: searxng/searxng:latest
+    container_name: voice-assistant-searxng
+    ports:
+      - "7676:8080"
+    volumes:
+      - /mnt/cache/HA_Stack/searxng:/etc/searxng:rw
+    restart: unless-stopped
+
+  homeassistant:
+    image: ghcr.io/home-assistant/home-assistant:stable
+    container_name: voice-assistant-homeassistant
+    network_mode: host
+    volumes:
+      - /mnt/cache/HA_Stack/homeassistant:/config
+      - /mnt/cache/HA_Stack/homeassistant/share:/share
+      - /mnt/cache/HA_Stack/homeassistant/home.log:/config/home.log
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - TZ=America/New_York
+    restart: unless-stopped
+    privileged: true
+
+  esphome:
+    image: ghcr.io/esphome/esphome:latest
+    container_name: esphome
+    network_mode: host
+    volumes:
+      - /mnt/cache/HA_Stack/homeassistant/esphome:/config
+      - /etc/localtime:/etc/localtime:ro
+    restart: unless-stopped
+
+  whisper:
+    image: rhasspy/wyoming-whisper:latest
+    container_name: whisper
+    ports:
+      - "10300:10300"
+    volumes:
+      - /mnt/cache/HA_Stack/whisper:/data
+    command: --model tiny
+    restart: unless-stopped
+
+  piper:
+    image: rhasspy/wyoming-piper:latest
+    container_name: piper
+    ports:
+      - "10200:10200"
+    volumes:
+      - /mnt/cache/HA_Stack/piper:/data
+    command:
+      - --voice
+      - en_US-lessac-medium
+      - --data-dir
+      - /data
+      - --download-dir
+      - /data
+    restart: unless-stopped
+
+  piper-glados:
+    image: rhasspy/wyoming-piper:latest
+    container_name: piper-glados
+    ports:
+      - "10201:10200"
+    volumes:
+      - /mnt/cache/HA_Stack/piper:/data
+    command:
+      - --voice
+      - glados
+      - --data-dir
+      - /data
+      - --download-dir
+      - /data
+    restart: unless-stopped
+
+  http-service:
+    image: node:20-alpine
+    container_name: voice-assistant-http-service
+    working_dir: /app
+    ports:
+      - "8765:8765"
+    volumes:
+      - /mnt/cache/HA_Stack/http-service:/app
+    environment:
+      - GROQ_API_KEY=${GROQ_API_KEY}
+      - GROQ_MODEL=llama-3.1-8b-instant
+      - SEARXNG_URL=http://192.168.2.10:7676
+    command: sh -c "npm install && npm start"
+    depends_on:
+      - searxng
+    restart: unless-stopped
+
+  glados-tts-api:
+    build:
+      context: /mnt/cache/HA_Stack/glados-tts-api/repo
+    container_name: glados-tts-api
+    ports:
+      - "5065:5050"
+    volumes:
+      - /mnt/cache/HA_Stack/glados-tts-api/models:/app/models
+    restart: unless-stopped

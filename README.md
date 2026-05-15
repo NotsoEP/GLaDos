@@ -91,9 +91,9 @@ http://192.168.1.10:8765/search
 
 Test it:
 
-```curl -X POST http://192.168.2.10:8765/search \
-  -H "Content-Type: application/json" \
-  -d '{"query":"current president of France"}'```\
+```curl -X POST http://192.168.2.10:8765/search ```
+```  -H "Content-Type: application/json" ```
+```  -d '{"query":"current president of France"}'```
 In the Extended OpenAI/Groq function YAML, use value_template this way because that is what worked in your stack:\
 value_template: "{{ value_json | to_json }}"\
 Add this to the GLaDOS prompt so it does not read tool junk aloud:\

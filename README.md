@@ -1,4 +1,6 @@
 The basic steps to install and get GLaDos working in your home assistant\
+This set up creates 1 parent container (/mnt/cache/HA_Stack) and places all the others inside that.
+THIS IS FOR UNRAID Change the yaml file to use your hostpath.
 (Change the IP address tothat of your server, using localhost or the container name did not work for me)
 
 

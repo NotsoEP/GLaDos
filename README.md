@@ -66,7 +66,7 @@ Rename them in Home Assistant:
 Piper - Normal\
 Piper - GLaDOS\
 Add Whisper Wyoming integration:\
-Host: 192.168.1.10\
+Host: 192.168.1.10   
 Port: 10300\
 For the GLaDOS wake word on ESP32-S3-Box, take control of the ESPHome device and store its YAML under:\
 /mnt/cache/HA_Stack/homeassistant/esphome/\

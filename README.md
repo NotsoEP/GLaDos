@@ -1,6 +1,6 @@
 The basic steps to install and get GLaDos working in your home assistant\
 This will setup a Home Assitant and everything needed to get you working.\
-I recommend you follow the original HA set up guide to get voice assist working before moving to the setup.\
+I recommend you follow the original HA set up guide to get voice assist working before moving to the setup.(Adjust and run the stack then follow the link to set up HA)\
 https://www.home-assistant.io/voice_control/  
 So run the stack, then set up HA before following.\
 This set up creates 1 parent container (/mnt/cache/HA_Stack) and places all the others inside that.\
